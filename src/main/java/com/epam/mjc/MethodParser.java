@@ -39,7 +39,7 @@ public class MethodParser {
         String argumentPart = tokens.nextToken();
 
         List<String> namePartList = splitter.splitByDelimiters(namePart, Arrays.asList(" "));
-        List<String> argumentPartList = splitter.splitByDelimiters(namePart, Arrays.asList(" ", ","));
+        List<String> argumentPartList = splitter.splitByDelimiters(argumentPart, Arrays.asList(" ", ","));
 
         if(namePartList.size()==3){
             accessModifier = namePartList.get(0);
