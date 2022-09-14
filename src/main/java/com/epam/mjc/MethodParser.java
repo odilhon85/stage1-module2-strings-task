@@ -30,7 +30,7 @@ public class MethodParser {
         MethodSignature methodSignature = null;
         String methodName = "";
         String returnType = "";
-        String accessModifier = "";
+        String accessModifier = null;
         List<String> argumentType = new ArrayList<>();
         List<String> argumentName = new ArrayList<>();
         List<MethodSignature.Argument> arguments = new ArrayList<>();
@@ -40,7 +40,7 @@ public class MethodParser {
         String argumentPart = tokens.nextToken();
 
         List<String> namePartList = splitter.splitByDelimiters(namePart, Arrays.asList(" "));
-        List<String> argumentPartList = splitter.splitByDelimiters(argumentPart, Arrays.asList(" ", ","));
+        List<String> argumentPartList = splitter.splitByDelimiters(argumentPart, Arrays.asList(" ", ", ",")"));
 
         if(namePartList.size()==3){
             accessModifier = namePartList.get(0);
@@ -54,9 +54,9 @@ public class MethodParser {
         if(argumentPartList.size()>0){
             for (int i = 1; i <= argumentPartList.size(); i++) {
                 if(i%2==0){
-                    argumentType.add(argumentPartList.get(i-1));
-                }else{
                     argumentName.add(argumentPartList.get(i-1));
+                }else{
+                    argumentType.add(argumentPartList.get(i-1));
                 }
             }
 
@@ -65,7 +65,7 @@ public class MethodParser {
             }
         }
 
-        if(accessModifier.equals("")){
+        if(accessModifier == null){
             if(argumentPartList.size()>0){
                 methodSignature = new MethodSignature(methodName, arguments);
             }else{
