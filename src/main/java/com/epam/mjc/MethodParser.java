@@ -1,5 +1,9 @@
 package com.epam.mjc;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
+
 public class MethodParser {
 
     /**
@@ -20,6 +24,63 @@ public class MethodParser {
      * @return {@link MethodSignature} object filled with parsed values from source string
      */
     public MethodSignature parseFunction(String signatureString) {
-        throw new UnsupportedOperationException("You should implement this method.");
+
+        StringSplitter splitter = new StringSplitter();
+        MethodSignature methodSignature = null;
+        String methodName = "";
+        String returnType = "";
+        String accessModifier = "";
+        List<String> argumentType = null;
+        List<String> argumentName = null;
+        List<MethodSignature.Argument> arguments = null;
+
+        StringTokenizer tokens = new StringTokenizer(signatureString, "(");
+        String namePart = tokens.nextToken();
+        String argumentPart = tokens.nextToken();
+
+        List<String> namePartList = splitter.splitByDelimiters(namePart, Arrays.asList(" "));
+        List<String> argumentPartList = splitter.splitByDelimiters(namePart, Arrays.asList(" ", ","));
+
+        if(namePartList.size()==3){
+            accessModifier = namePartList.get(0);
+            returnType = namePartList.get(1);
+            methodName = namePartList.get(2);
+        }else if(namePartList.size()==2){
+            returnType = namePartList.get(0);
+            methodName = namePartList.get(1);
+        }
+
+        if(argumentPartList.size()>0){
+            for (int i = 1; i <= argumentPartList.size(); i++) {
+                if(i%2==0){
+                    argumentType.add(argumentPartList.get(i-1));
+                }else{
+                    argumentName.add(argumentPartList.get(i-1));
+                }
+            }
+
+            for (int i = 0; i < argumentPartList.size(); i++) {
+                arguments.add(new MethodSignature.Argument(argumentType.get(i), argumentName.get(i)));
+            }
+        }
+
+        if(accessModifier.equals("")){
+            if(argumentPartList.size()>0){
+                methodSignature = new MethodSignature(methodName, arguments);
+            }else{
+                methodSignature = new MethodSignature(methodName);
+            }
+        }else{
+            if(argumentPartList.size()>0){
+                methodSignature = new MethodSignature(methodName, arguments);
+            }else{
+                methodSignature = new MethodSignature(methodName);
+            }
+            methodSignature.setAccessModifier(accessModifier);
+        }
+        methodSignature.setReturnType(returnType);
+
+        return methodSignature;
+
     }
 }
