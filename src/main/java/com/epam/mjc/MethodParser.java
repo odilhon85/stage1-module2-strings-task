@@ -1,5 +1,6 @@
 package com.epam.mjc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -30,9 +31,9 @@ public class MethodParser {
         String methodName = "";
         String returnType = "";
         String accessModifier = "";
-        List<String> argumentType = null;
-        List<String> argumentName = null;
-        List<MethodSignature.Argument> arguments = null;
+        List<String> argumentType = new ArrayList<>();
+        List<String> argumentName = new ArrayList<>();
+        List<MethodSignature.Argument> arguments = new ArrayList<>();
 
         StringTokenizer tokens = new StringTokenizer(signatureString, "(");
         String namePart = tokens.nextToken();
@@ -59,7 +60,7 @@ public class MethodParser {
                 }
             }
 
-            for (int i = 0; i < argumentPartList.size(); i++) {
+            for (int i = 0; i < argumentType.size(); i++) {
                 arguments.add(new MethodSignature.Argument(argumentType.get(i), argumentName.get(i)));
             }
         }

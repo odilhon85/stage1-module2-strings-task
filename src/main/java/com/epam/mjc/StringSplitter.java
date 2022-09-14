@@ -16,10 +16,10 @@ public class StringSplitter {
      */
     public List<String> splitByDelimiters(String source, Collection<String> delimiters) {
         StringTokenizer tokens = new StringTokenizer(source);
-        String[] delimArr = (String[]) delimiters.toArray();
-        for (int i = 0; i < delimArr.length; i++) {
+        List<String> delimArr = new ArrayList<>(delimiters);
+        for (int i = 0; i < delimArr.size(); i++) {
             if(tokens.hasMoreElements()){
-                tokens.nextToken(delimArr[i]);
+                tokens.nextToken(delimArr.get(i));
             }
         }
         List<String> list = new ArrayList<>();
